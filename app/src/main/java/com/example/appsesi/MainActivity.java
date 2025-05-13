@@ -1,32 +1,45 @@
 package com.example.appsesi;
 
-import android.os.Bundle;
-
-import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-
-
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.*;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
-
+    Button btnPerfil, btnHistorico, btnMarcarPresenca;
     EditText editTextNome;
-    Button btnMarcarPresenca;
     ProgressBar progressBar;
     TextView textStatus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main); // nome do XML
+        setContentView(R.layout.activity_main);
 
+        // Botões de navegação
+        btnPerfil = findViewById(R.id.btnAbrirPerfil);
+        btnHistorico = findViewById(R.id.btnVerHistorico);
+
+        btnPerfil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, PerfilActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btnHistorico.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, HistoricoActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        // Lógica de marcação de presença
         editTextNome = findViewById(R.id.editTextNome);
         btnMarcarPresenca = findViewById(R.id.btnMarcarPresenca);
         progressBar = findViewById(R.id.progressBar);

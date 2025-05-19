@@ -15,8 +15,12 @@ public class LoginActivity extends AppCompatActivity {
     Button btnLogin, btnCriarConta;
     TextView textErro;
 
-    // Simulação de credencial fixa (para protótipo)
+    // Simulação de credencial fixa (para TESTES!! E UMA FALHA DE SEGURANÇA A LONGO PRAZO!!!)
     private final String usuarioFixo = "usuario@sesi.com";
+
+    public String[] emailNovo = {};
+
+    public String[] senhaNova = {};
     private final String senhaFixa = "123456";
 
     @Override
@@ -36,12 +40,23 @@ public class LoginActivity extends AppCompatActivity {
                 String email = editTextEmail.getText().toString();
                 String senha = editTextSenha.getText().toString();
 
+                Intent incomingIntent = getIntent();
+
+                String receivedEmail = incomingIntent.getStringExtra("emailNovo");
+                String receivedSenha = incomingIntent.getStringExtra("senhaNova");
+
+                if (receivedEmail != null && receivedSenha != null) {
+                    emailNovo = new String[]{receivedEmail};
+                    senhaNova = new String[]{receivedSenha};
+                }
+
                 if (TextUtils.isEmpty(email) || TextUtils.isEmpty(senha)) {
                     textErro.setText("Preencha todos os campos.");
                     return;
                 }
 
-                if (email.equals(usuarioFixo) && senha.equals(senhaFixa)) {
+                // Verificação se estão corretas as credenciais.
+                if (email.equals(usuarioFixo) && senha.equals(senhaFixa) || email.equals(emailNovo[0]) && senha.equals(senhaNova[0])) {
                     // Login bem-sucedido
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
@@ -51,11 +66,15 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+        //
 
         btnCriarConta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                textErro.setText("Função de cadastro ainda não implementada.");
+                // Selecionando a criação de entradas.
+                Intent intent = new Intent(LoginActivity.this, CreateActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
     }
